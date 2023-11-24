@@ -1,7 +1,10 @@
 import { ApiService } from "./ApiService.js";
+import { formValidation } from "./validation.js";
 
 $(document).ready(function () {
 
+    formValidation();
+    
     if($("#register-form").length){
         var element = $('#phoneNumber');
         var maskOptions = {
