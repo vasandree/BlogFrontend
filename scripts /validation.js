@@ -1,14 +1,17 @@
 export function formValidation() {
+    const phoneMask = "+7(___)___-__-__";
+
     $.validator.addMethod('checkDate', function(date) {
-        return new Date(date) < new Date();
+        return date === "" || (date !== "" && new Date(date) < new Date());
     }, 'Введите корректную дату');
 
-    $.validator.addMethod('checkPassword', function(value) {
-        return /\d/.test(value);
+    $.validator.addMethod('checkPassword', function(password) {
+        return /\d/.test(password);
     }, 'Пароль должен содержать хотя бы одну цифру');
-    $.validator.addMethod('checkPhoneNumber', function(value) {
+
+    $.validator.addMethod('checkPhoneNumber', function(phone) {
         
-        return value !== "+7(___)___-__-__" && /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/.test(value);
+        return phone === phoneMask || (phone !== phoneMask&& /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/.test(value));
     }, 'Введите корректный номер телефона');
     
     $("form").validate({
@@ -27,7 +30,6 @@ export function formValidation() {
                 required: true,
                 equalTo: "#password",
                 minlength: 6,
-                ckeckPassword: true
             },
             birthDate:{
                 checkDate: true,

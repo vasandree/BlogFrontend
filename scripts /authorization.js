@@ -4,7 +4,7 @@ import { formValidation } from "./validation.js";
 $(document).ready(function () {
 
     formValidation();
-    
+
     if($("#register-form").length){
         var element = $('#phoneNumber');
         var maskOptions = {
@@ -63,8 +63,16 @@ function getObjectFromInputs() {
         }
         let key = $(input).attr("id");
         let value = $(input).val()
-        objectData[key] = value;
-        console.log(objectData);
+        if (key === "birthDate" && value === "") {
+            objectData[key] = null;
+        }
+        else if(key === "phoneNumber" && value === "+7(___)___-__-__"){
+            objectData[key] = null;
+        }
+        else{
+            objectData[key] = value;
+        }
     }
+    console.log(objectData);
     return objectData;
 }
