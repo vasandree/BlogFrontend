@@ -85,4 +85,11 @@ export class ApiService{
         } 
     }
     
+    getProfileInfo(){
+        return this.get("/account/profile");
+    }
+
+    editProfile(body){
+        this.put("/account/profile", body);
+    }
 }
