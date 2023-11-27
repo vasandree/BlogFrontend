@@ -77,7 +77,7 @@ export class ApiService{
             } else {
                 data.body = response;
             }
-            
+        
             return (data);
         } 
         catch(error) {
@@ -85,4 +85,11 @@ export class ApiService{
         } 
     }
     
+    getProfileInfo(){
+        return this.get("/account/profile");
+    }
+
+    editProfile(body){
+        return this.put("/account/profile", body);
+    }
 }
