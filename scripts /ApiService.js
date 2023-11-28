@@ -84,5 +84,28 @@ export class ApiService{
             console.log(error);
         } 
     }
+    async delete(url){
+        try {
+            const response = await fetch(`${this._urlBase}${url}`, {
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            
+            let data = {};
     
+            if (!response.ok) {
+                data.error = response;
+            } else {
+                data.body = response;
+            }
+            
+            return (data);
+        } 
+        catch(error) {
+            console.log(error);
+        } 
+    }
 }
+
