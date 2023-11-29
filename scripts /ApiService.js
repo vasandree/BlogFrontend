@@ -25,9 +25,9 @@ export class ApiService{
 
     async post(url, body) {
         try {
-
+            let response;
             if(body === null ){
-                const response = await fetch(`${this._baseUrl}${url}`, {
+                response = await fetch(`${this._baseUrl}${url}`, {
                     method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -35,7 +35,7 @@ export class ApiService{
                 });
             }
             else{
-                const response = await fetch(`${this._baseUrl}${url}`, {
+                response = await fetch(`${this._baseUrl}${url}`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -84,5 +84,7 @@ export class ApiService{
             console.log(error);
         } 
     }
-    
+    logout(){
+        return this.post("/account/logout")
+    }
 }
