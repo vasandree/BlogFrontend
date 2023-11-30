@@ -16,6 +16,7 @@ export class ApiService{
             } else {
                 data.body = await response.json();
             }
+            console.log(data.body);
             return (data);
         } 
         catch(error) {
@@ -84,5 +85,7 @@ export class ApiService{
             console.log(error);
         } 
     }
-    
+    getAuthors(){
+        return this.get("/author/list");
+    }
 }
