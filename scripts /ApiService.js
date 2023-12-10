@@ -17,6 +17,7 @@ export class ApiService{
             } else {
                 data.body = await response.json();
             }
+            console.log(data.body);
             return (data);
         } 
         catch(error) {
@@ -149,4 +150,7 @@ export class ApiService{
         return this.post("/account/logout")
     }
     
+    getAuthors(){
+        return this.get("/author/list");
+    }
 }
