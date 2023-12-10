@@ -153,4 +153,37 @@ export class ApiService{
     getAuthors(){
         return this.get("/author/list");
     }
+    
+
+    getPost(postId){
+        return this.get(`/post/${postId}`);
+    }
+    getAddress(id){
+        return this.get(`/address/chain?objectGuid=${id}`);
+    }
+    likePost(postId){
+        return this.post(`/post/${postId}/like`);
+    }
+    dislikePost(postId){
+        return this.delete(`/post/${postId}/like`)
+    }
+    postComment(postId, parentId, text){
+        return this.post(`/post/${postId}/comment`, {
+            content: text,
+            parentId: parentId
+          });
+    }
+    getSubcomments(commentId){
+        return this.get(`/comment/${commentId}/tree`);
+    }
+    getProfileInfo(){
+        return this.get("/account/profile");
+    }
+    deleteComment(commentId){
+        return this.delete(`/comment/${commentId}`);
+    }
+    editComment(commentId, text){
+        return this.put(`/comment/${commentId}`, {content: text});
+    }
+
 }

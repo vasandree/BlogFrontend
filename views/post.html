@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div class="container code-container">
+    <div id="post" class="row mt-3">
+        <div class="card">
+            <div class="card-body">
+                <small class="text-muted fst-italic ms-2"><span id="authorsName"> </span><span id="createTime"> время создания</span> <span id="community"></span></small>
+                <div class="row mt-3">
+                    <h3 id="title" class="card-title border-bottom pb-3">Заголовок</h3>
+                </div>
+                <div class="row mt-3 justify-content-center">
+                    <div class="col-md-6 justify-content-center">
+                         <img id="photo" src="" alt="Photo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <p class="card-text" id="postDescription"></p>
+                </div>
+                <div class="row mt-3">
+                    <small id="tags" class="text-muted ms-2"><span id="tag"></span></small>
+                </div>
+                <div class="row mt-3">
+                    <span id="readingTime"></span>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <i id="addressIcon" class="fa-solid fa-location-dot d-none"></i><span id="address"></span>
+                    </div>
+                </div>    
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <i id="heartIcon" class="fa-regular fa-heart"></i><span class="m-1" id="likesCount"></i> 10</span>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <i class="fa-regular fa-comment"></i><span class="m-1" id="commentsCount"> 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="card">
+            <div class="card-body">
+                <h4>Комментарии</h4>
+                <div id="comments">
+                    <div id="comment" class="row mt-2 d-none">
+                        <div id="subcomment">
+                            <div class="row g-2">
+                                <div class="col-auto">
+                                    <h5 id="authorName">Автор</h5>
+                                </div>
+                                <div id="myComment" class="col-auto d-none">
+                                    <i id="editComment" class="fa-solid fa-pencil"></i>
+                                    <i id="deleteComment" class="fa-solid fa-trash"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <p id="content">Текст комментария</p>
+                                <div id="editInput" class="row d-none">
+                                    <div id="editForm" class="col-md-9">
+                                        <input type="text" class="form-control" id="editText" placeholder="Редактировать комментарий...">
+                                    </div>
+                                    <div class="col-md-3 text-end">
+                                        <button id="cancelBtn" type="button" class="btn btn-secondary">Отменить</button>
+                                        <button id="editBtn" type="submit" class="btn btn-primary">Cохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <p><small id="timeCreated" class="text-muted">время создания </small></p>
+                                <div id="answerInput" class="row d-none">
+                                    <div id="answerForm" class="col-md-9">
+                                        <input type="text" class="form-control" id="answerText" placeholder="Оставьте комментарий...">
+                                    </div>
+                                    <div class="col-md-3 text-end">
+                                        <button id="cancelBtn" type="button" class="btn btn-secondary">Отменить</button>
+                                        <button id="answerBtn" type="submit" class="btn btn-primary">Ответить</button>
+                                    </div>
+                                </div>
+                                <p>
+                                    <a id="showSubComments" class="ml-1 mb-0.5">Раскрыть ответы</a>
+                                    <span class="ml-2"></span> 
+                                    <a id="answer" class="ml">Ответить </a>
+                                </p>
+                            </div>
+                        </div>
+                            
+                        
+                        <div id="subComments" class="offset-md-1 col-md-10 subcomment">
+
+                        </div>
+                        <a id="closeSubComments" class="ml-1 mb-0.5 d-none">Закрыть ответы</a>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="commentSection" class="row mt-3">
+        <div class="card">
+            <div class="card-body">
+                <h4>Оставить комментарий</h4>
+                    <div class="mb-3">
+                        <label for="commentText" class="form-label">Текст комментария</label>
+                        <textarea class="form-control" id="commentText" rows="3"></textarea>
+                    </div>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>    
+<div class="modal fade" id="popUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Предупреждение</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="module" src="/scripts /post.js"></script>
+</body>
+</html>
