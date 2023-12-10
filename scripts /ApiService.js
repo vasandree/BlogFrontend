@@ -111,6 +111,50 @@ export class ApiService{
             console.log(error);
         } 
     }
+    getPosts(tags, author, minTime, maxTime, sorting, onlyMyCommunities, page, size){
+        let url = "/post?";
+        if(tags){
+            for(let tag of tags){
+                url += `tags=${tag[1]}&`;
+            }
+        }
+        if(author){
+            url += `author=${author}&`
+        }
+        if(minTime){
+            url += `min=${minTime}&`
+        }
+        if(maxTime){
+            url += `max=${maxTime}&`
+        }
+        if(sorting){
+            url += `sorting=${sorting}&`
+        }
+        url += `onlyMyCommunities=${onlyMyCommunities}&page=${page}&size=${size}`
+        return this.get(url);
+    }
+    async register(body){
+        let response = await this.post('/account/register', body);
+        if (response.body){
+            response.body = await response.body.json();
+        }
+        else if(response.error){
+            response.error = await response.error.json();
+        }
+        return response;
+    }
+
+    async login (body){
+        let response = await this.post('/account/login', body);
+        if (response.body){
+            response.body = await response.body.json();
+        }
+        else if(response.error){
+            response.error = await response.error.json();
+        }
+        return response;
+    }
+
     getCommunityInfo(id ){
         return this.get(`/community/${id}`)
     }
@@ -179,6 +223,11 @@ export class ApiService{
     getProfileInfo(){
         return this.get("/account/profile");
     }
+
+    editProfile(body){
+        return this.put("/account/profile", body);
+    }
+
     deleteComment(commentId){
         return this.delete(`/comment/${commentId}`);
     }
