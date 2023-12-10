@@ -80,7 +80,7 @@ export class ApiService{
             } else {
                 data.body = response;
             }
-        
+            
             return (data);
         } 
         catch(error) {
@@ -136,7 +136,29 @@ export class ApiService{
     }
 
 
-
+    getGroups(){
+        return this.get("/community");
+    }
+    async getGroupRole(id) {
+        try {
+            const response = await this.get(`/community/${id}/role`);
+    
+            if (response.error) {
+                return { error: response.error };
+            } else {
+                return { body: response.body };
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;  // Re-throw the error to propagate it
+        }
+    }
+    subscribeToGroup(id){
+        return this.post(`/community/${id}/subscribe`)
+    }
+    unsubscribeToGroup(id){
+        return this.delete(`/community/${id}/unsubscribe`)
+    }
 
     
     getProfileInfo(){
@@ -147,3 +169,5 @@ export class ApiService{
         return this.put("/account/profile", body);
     }
 }
+
+
