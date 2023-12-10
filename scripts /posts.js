@@ -2,10 +2,12 @@ import { ApiService } from "./ApiService.js";
 import { createPostCard, getPageNumbers,addDropdownTags, getTags, changePage} from "./main.js";
 
 
-export  function loadMainPage(){
+export  function loadMainPage(params){
+    console.log(params);
     setAddPostButton();
     setFilters();
-    loadPosts(1, 5, null, null, null, null, null, false);
+    loadPosts(params.page ? params.page:1, params.size ? params.size : 5, params.tags, 
+        params.sorting, params.min, params.max, params.name, params.onlyMyCommunities);
 }
 
 function setFilters(){
@@ -25,8 +27,16 @@ function setFilters(){
 
 function submitOnClick(filters, ){
     filters.find("#submitBtn").click(function(event){
-        loadPosts(1, $("#postsPerPage").val(),getTags(), $("#sortingDropdown").val(), $("#readingTimeFrom").val(),
-         $("#readingTimeTo").val(), $("#name").val(), $('#onlyMyCommunities').prop('checked'))
+        loadMainPage({
+            page:1,
+            size: $("#postsPerPage").val(),
+            tags: getTags(),
+            sorting: $("#sortingDropdown").val(),
+            min:  $("#readingTimeFrom").val(),
+            max: $("#readingTimeTo").val(),
+            name: $("#name").val(),
+            onlyMyCommunities: $('#onlyMyCommunities').prop('checked'),
+        })
     });
 } 
 function setTags(tags, dropdown){
