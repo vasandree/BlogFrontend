@@ -185,5 +185,19 @@ export class ApiService{
     editComment(commentId, text){
         return this.put(`/comment/${commentId}`, {content: text});
     }
-
+    createPost(body){
+        return this.post("/post", body);
+    }
+    createPostInGroup(body, id){
+        return this.post(`/community/${id}/post`, body);
+    }
+    searchAddress(objectId, query){
+        if(objectId != null && query != null){
+            return this.get(`/address/search?parentObjectId=${objectId}&query=${query}`);
+        }
+        else if(objectId != null || query != null){
+            return this.get(`/address/search?${objectId ? `parentObjectId=${objectId}` : ""}${query ? `query=${query}` : ""}`);
+        }
+        return this.get("/address/search");
+    }
 }

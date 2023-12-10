@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Cоздать новый пост</h1>
+                <form>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="title" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="title">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="readingTime" class="form-label">Время чтения:</label>
+                            <input type="text" class="form-control" id="readingTime">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="groups" class="form-label">Группа:</label>
+                            <select class="form-select" id="groups">
+                                <option value="" >Без группы</option>
+                            </select>     
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tags" class="form-label">Tэги:</label>
+                            <select id="tags" class="form-select" multiple="multiple">
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="image" class="form-label">Cсылка на фото:</label>
+                            <input type="text" class="form-control" id="image">  
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="description" class="form-label">Описание</label>
+                            <textarea class="form-control" id="description" rows="7"></textarea>  
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <h3>Адрес</h3>
+                            <div id="addressTemplate" class="col-md-12 d-none">
+                                <label id="objectLevelText" for="addressId" class="form-label">Следующий элемент адреса:</label>
+                                <select class="form-select" id="addressId">
+                                    <option value="">Не выбран</option>
+                                </select>
+                                <div id="childElement"></div>
+                            </div>
+                            
+                            <div id="adressForm" class="row mt-3">
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row mt-3">
+                    <div class="col-md-12 text-center">
+                        <button id="submitBtn" class="btn btn-primary">Создать пост</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="module" src="/scripts /createPost.js"></script>
+</body>
+</html>
+
