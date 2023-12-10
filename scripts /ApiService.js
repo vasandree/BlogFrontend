@@ -25,9 +25,9 @@ export class ApiService{
 
     async post(url, body) {
         try {
-
+            let response;
             if(body === null ){
-                const response = await fetch(`${this._baseUrl}${url}`, {
+                response = await fetch(`${this._baseUrl}${url}`, {
                     method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -35,7 +35,7 @@ export class ApiService{
                 });
             }
             else{
-                const response = await fetch(`${this._baseUrl}${url}`, {
+                response = await fetch(`${this._baseUrl}${url}`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -106,6 +106,30 @@ export class ApiService{
         catch(error) {
             console.log(error);
         } 
+    }
+    getTags(){
+        return this.get("/tag");
+    }
+    getGroups(){
+        return this.get("/community");
+    }
+    getMyGroups(){
+        return this.get("/community/my");
+    }
+    createPost(body){
+        return this.post("/post", body);
+    }
+    createPostInGroup(body, id){
+        return this.post(`/community/${id}/post`, body);
+    }
+    searchAddress(objectId, query){
+        if(objectId != null && query != null){
+            return this.get(`/address/search?parentObjectId=${objectId}&query=${query}`);
+        }
+        else if(objectId != null || query != null){
+            return this.get(`/address/search?${objectId ? `parentObjectId=${objectId}` : ""}${query ? `query=${query}` : ""}`);
+        }
+        return this.get("/address/search");
     }
 }
 
