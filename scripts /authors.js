@@ -5,13 +5,9 @@ const apiService = new ApiService();
 const maleAvatar = "/images /male_avatar.jpg";
 const femaleAvatar ="/images /female_avatar.jpg";
 
-$(document).ready(function(){
 
-    loadAuthors();
 
-});
-
-async function loadAuthors(){
+export async function loadAuthors(){
     try{
         let data = await apiService.getAuthors();
 

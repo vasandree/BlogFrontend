@@ -1,16 +1,12 @@
 import { ApiService } from "./ApiService.js";
-import { getObjectFromInputs, addDropdownTags } from "./main.js";
+import { getObjectFromInputs, addDropdownTags, changePage } from "./main.js";
 
-const token =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1NDVjYmI2MS1lYzdlLTQ1MjAtNDIwZC0wOGRiZWE1MjFhNWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjJkY2Y5ODM0LTViMDgtNGM1Ni1iZGU4LTc1NWE3ZWEyYWI4MCIsIm5iZiI6MTcwMjEzODkwNiwiZXhwIjoxNzAyMTQyNTA2LCJpYXQiOjE3MDIxMzg5MDYsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.fX5tpgPp5VGzF-ch3_whaRH4_ciVi7aeRk5Pa9y7XNI";
-localStorage.setItem("token", token);
-
-
-$(document).ready(function() {
+let addressGuid;
+export function loadCreatePost(){
     addAddress($("#adressForm"), null, null, "");
     fillInDropowns();  
     submitOnClick();
-});
+}
 
 function fillInDropowns(){
     
@@ -114,8 +110,12 @@ function setOnChange(addressElement, objectId){
     });
     
     selection.on('select2:close', function (e) {
-        selection.find('option').not(':first-child').remove();
-        addAdressElements(addressElement, objectId, null);
+        if($(this).val() === ""){
+
+            selection.find('option').not(':first-child').remove();
+            addAdressElements(addressElement, objectId, null); 
+        }
+        
     });
     
     selection.on('change', function (e) {
@@ -129,6 +129,7 @@ function setOnChange(addressElement, objectId){
             var objectId = $(this).find(':selected').attr('objid');
             var objectLevelText = $(this).find(':selected').attr('objectLevelText');
             addressElement.find("#objectLevelText").text(objectLevelText);
+            addressGuid = $(this).find(':selected').attr('value');
             if($(this).find(':selected').attr('objectLevel') !== "Building"){
                addAddress(addressElement.find("#childElement"), objectId, null);  
             }
@@ -142,28 +143,28 @@ function setOnChange(addressElement, objectId){
 function submitOnClick(){
     $("#submitBtn").on('click', function(){
         //todo:validate
+        let body = getObjectFromInputs();
+            delete body.groups;
+            if(body.addressId === "" && addressGuid !==""){
+                body.addressId = addressGuid;
+            }
         if($("#groups").val() === ""){
             
-            let body = getObjectFromInputs();
-            delete body.groups;
-
+            
             const apiService = new ApiService();
             let result = apiService.createPost(body);
             result.then((data)=> {
                 if(data.body){
-                    //на главную 
+                    changePage('/')
                 }
             })
         }
         else{
-            let body = getObjectFromInputs();
-            delete body.groups;
-
             const apiService = new ApiService();
             let result = apiService.createPostInGroup(body, $("#groups").val());
             result.then((data)=> {
                 if(data.body){
-                    //в сообщество
+                    changePage(`/community/${$("#groups").val()}`);
                 }
             })
         }

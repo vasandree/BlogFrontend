@@ -1,13 +1,12 @@
 import { ApiService } from "./ApiService.js";
-import { createPostCard, getPageNumbers,addDropdownTags, getTags} from "./main.js";
+import { createPostCard, getPageNumbers,addDropdownTags, getTags, changePage} from "./main.js";
 
 
-$(document).ready(function() {
-
+export  function loadMainPage(){
+    setAddPostButton();
     setFilters();
     loadPosts(1, 5, null, null, null, null, null, false);
-
-});
+}
 
 function setFilters(){
     const apiService = new ApiService();
@@ -121,5 +120,15 @@ function addPostsPerPageChange(){
     $("#postsPerPage").on("change", function() {
         loadPosts(1, $("#postsPerPage").val(), getTags(), $("#sortingDropdown").val(), $("#readingTimeFrom").val(),
             $("#readingTimeTo").val(), $("#name").val(), $('#onlyMyCommunities').prop('checked'));
+    });
+}
+
+function setAddPostButton(){
+    const apiService = new ApiService();
+    let result = apiService.getProfileInfo();
+    result.then((data)=>{
+        if(data.body){
+            $("#addPostButton").removeClass("d-none");
+        }
     });
 }

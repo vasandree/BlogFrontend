@@ -1,16 +1,9 @@
 import { ApiService } from "./ApiService.js";
-const apiService = new ApiService();
-const token = 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6ImMzMDU5ZDY4LTA5OWYtNGViOC1hNWM2LTI4YTViMjNhN2E1ZCIsIm5iZiI6MTcwMTI3ODE0MywiZXhwIjoxNzAxMjgxNzQzLCJpYXQiOjE3MDEyNzgxNDMsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.Xc0f9dBobkh9nvzJpl2o8qUA8JvHaz4i2-HzAaivRNQ";
-localStorage.setItem("token", token);
-$(document).ready(function(){
+import { changePage } from "./main.js";
 
-    loadNavbar();
-
-});
-
-function loadNavbar(){
+export function loadNavbar(){
     $("#navbar").find("#profile-name").text("");
+    const apiService = new ApiService();
     let result = apiService.getProfileInfo();
     result.then((data) =>{
         if(data.body){
@@ -38,8 +31,12 @@ function setUnauthorizedNavBar(){
 
 function registerLogout(){
     $("#logout").click(function(){
-        apiService.logout();
-        loadNavbar();
-        //reload page
+        const apiService = new ApiService();
+        let result = apiService.logout();
+        result.then((data) =>{
+            if(data.body){
+                changePage("/login/");
+            }
+        });    
     });
 }

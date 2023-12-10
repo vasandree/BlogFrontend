@@ -1,16 +1,14 @@
 import { ApiService } from "./ApiService.js";
 import { getObjectFromInputs, addPhoneMask } from "./main.js";
 import { formValidation } from "./validation.js";
-const token = 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjJjMzcyNDhlLTJhYWQtNDhjYy1hZmI1LThkNzg3NjdjZjhiYiIsIm5iZiI6MTcwMjIwODgxMSwiZXhwIjoxNzAyMjEyNDExLCJpYXQiOjE3MDIyMDg4MTEsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.vvv__o7DjaQqnAiFqY9JURa8Ytax3jFerFRlAbMZ2B4";
-localStorage.setItem("token", token);
+
 let currentInfo;
-const apiService = new ApiService();
-$(document).ready(function(){
-    addPhoneMask($("#profile"));
+
+export   function loadProfile(){
     loadInfo($("#profile"));
-    setOnButtonsClick();
-})
+    addPhoneMask($("#profile"));
+    
+}
 
     function fillInInfo(data){
         let profileInfo = $("#profile");
@@ -40,11 +38,10 @@ $(document).ready(function(){
     }
 
     function loadInfo(form){
-        
+        const apiService = new ApiService();
         let result = apiService.getProfileInfo();
         result.then((data) => {
             if (data.body) {
-    
                 fillInInfo(data.body)
                 disableForm(form);
                 currentInfo = data.body;
@@ -52,6 +49,7 @@ $(document).ready(function(){
                 console.log(data, error);
             }
         });
+        setOnButtonsClick();
     }
 function setOnButtonsClick(){
     $("#editBtn").click(function(event){
@@ -77,7 +75,7 @@ function setOnButtonsClick(){
         if(objectData){
             objectData.id = $(this).data("id");
             objectData.gender = ($("#gender").val());
-             
+            const apiService = new ApiService();
             let result = apiService.editProfile(objectData);
             result.then((data) => {
                 if(data.body){

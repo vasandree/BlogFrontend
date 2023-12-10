@@ -1,16 +1,16 @@
 import { ApiService } from "./ApiService.js";
 import { createPostCard, getPageNumbers, addDropdownTags, getTags } from "./main.js";
-const communityId ="c5639aab-3a25-4efc-17e1-08dbea521a96";
+
 const maleAvatar = "/images /male_avatar.jpg";
 const femaleAvatar ="/images /female_avatar.jpg";
-
-$(document).ready(function() {
-
+let communityId;
+export function loadCommunityPage(id){
+  communityId = id;
   loadCommunityInfo(communityId);
   setFilters();
   loadPosts(1, 5, null, null);
+}
 
-});
 function loadCommunityInfo(communityId){
     const apiService = new ApiService();
     let result = apiService.getCommunityInfo(communityId);

@@ -1,14 +1,17 @@
 import { ApiService } from "./ApiService.js";
 import { formValidation } from "./validation.js";
-import { addPhoneMask, getObjectFromInputs } from "./main.js";
+import { addPhoneMask, getObjectFromInputs, changePage } from "./main.js";
 
-$(document).ready(function () {
-
+export function loadLogin(){
     formValidation();
-    addPhoneMask(("#register-form"))
-	submitOnClick();
-    
-});
+    submitOnClick();
+}
+  
+export function loadRegister(){
+    formValidation();
+    addPhoneMask(("#register-form"));
+    submitOnClick();
+}
 
 function submitOnClick(){
     $("form").submit(function (event) {
@@ -34,6 +37,7 @@ function submitOnClick(){
             result.then((data) => {
                 if (data.body) {
                     localStorage.setItem("token", data.body.token);
+                    changePage('/')
                 } else {
                     showError(event);
                 }

@@ -1,15 +1,11 @@
 import { ApiService } from "./ApiService.js";
 import { setOnHeartClick, formatDateTime } from "./main.js";
-const token = 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjhlYzJhMjM0LTBiMmEtNDYyNi04ZDcyLTFhOTNlODNlY2RlNiIsIm5iZiI6MTcwMjA1ODAzMCwiZXhwIjoxNzAyMDYxNjMwLCJpYXQiOjE3MDIwNTgwMzAsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.g_9bbZP6VzchsC6rtAop0mynL7NH3uC3jVA1nOho83w";
-localStorage.setItem("token", token);
 
-const postId ="b3def2c4-d1cc-46a0-8e1d-d09f8342ee2f";
-$(document).ready(async function() {
+export async function loadPostPage(postId){
     let user = await getUser();
     loadPost(postId, user ? user: null);
     submintOnClick(postId, user ? user : null);
-});
+}
 
 async function loadPost(postId, user) {
     const apiService = new ApiService();

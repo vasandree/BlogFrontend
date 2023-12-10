@@ -79,6 +79,7 @@ export function createPostCard(post, card){
     postCard.attr("id",`${post.id}` ).removeClass("d-none");
     if (post.title){
         postCard.find("#title").text(post.title);
+        postCard.find("#title").attr('href',`/post/${post.id}`);
     }
     if(post.image){
         postCard.find("#photo").attr("src", post.image);
@@ -176,4 +177,9 @@ export function getTags(){
     }
     tags[key] = value;
     return tags.tags;
+}
+
+export function changePage(to) {
+    history.pushState(null, null, to);
+    location.reload();
 }
