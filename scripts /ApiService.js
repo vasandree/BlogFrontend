@@ -80,7 +80,7 @@ export class ApiService{
             } else {
                 data.body = response;
             }
-            
+        
             return (data);
         } 
         catch(error) {
@@ -113,7 +113,6 @@ export class ApiService{
     }
 
 
-
     async register(body){
         let response = await this.post('/account/register', body);
         if (response.body){
@@ -136,5 +135,15 @@ export class ApiService{
         return response;
     }
 
-}
 
+
+
+    
+    getProfileInfo(){
+        return this.get("/account/profile");
+    }
+
+    editProfile(body){
+        return this.put("/account/profile", body);
+    }
+}
