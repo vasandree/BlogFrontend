@@ -19,31 +19,28 @@
                             <input type="text" class="form-control" id="title">
                         </div>
                         <div class="col-md-4">
-                            <label for="readingTime" class="form-label">Время чтения</label>
+                            <label for="readingTime" class="form-label">Время чтения:</label>
                             <input type="text" class="form-control" id="readingTime">
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="groups" class="form-label">Группы</label>
+                            <label for="groups" class="form-label">Группа:</label>
                             <select class="form-select" id="groups">
-                                <option value="" selected>Без группы</option>
+                                <option value="" >Без группы</option>
                             </select>     
                         </div>
                         <div class="col-md-6">
-                            <label for="tagDropdown" class="form-label">Tэги:</label>
-                            <select id="tagDropdown" class="form-select" multiple="multiple">
-                                <option value="tag1">Tag 1</option>
-                                <option value="tag2">Tag 2</option>
-                                <option value="tag3">Tag 3</option>
+                            <label for="tags" class="form-label">Tэги:</label>
+                            <select id="tags" class="form-select" multiple="multiple">
                             </select>
                         </div>
                     </div>
                     
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label for="photoLink" class="form-label">Cсылка на фото</label>
-                            <input type="text" class="form-control" id="photoLink">  
+                            <label for="image" class="form-label">Cсылка на фото:</label>
+                            <input type="text" class="form-control" id="image">  
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -55,23 +52,24 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <h3>Адрес</h3>
+                            <div id="addressTemplate" class="col-md-12 d-none">
+                                <label id="objectLevelText" for="addressId" class="form-label">Следующий элемент адреса:</label>
+                                <select class="form-select" id="addressId">
+                                    <option value="">Не выбран</option>
+                                </select>
+                                <div id="childElement"></div>
+                            </div>
+                            
                             <div id="adressForm" class="row mt-3">
-                                <div class="col-md-12">
-                                    <label for="address" class="form-label">Страна</label>
-                                    <select class="form-select" id="address">
-                                        <option value="" selected>Не выбран</option>
-                                        <option >Address 1</option>
-                                        <option value="address2">Address 2</option>
-                                        <option value="address3">Address 3</option>
-                                    </select>
-                                </div>
+                                
+                                
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="row mt-3">
                     <div class="col-md-12 text-center">
-                        <button class="btn btn-primary">Создать пост</button>
+                        <button id="submitBtn" class="btn btn-primary">Создать пост</button>
                     </div>
                 </div>
             </div>
