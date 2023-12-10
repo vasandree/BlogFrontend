@@ -1,6 +1,7 @@
 import { ApiService } from "./ApiService.js";
 
 const apiService = new ApiService();
+
 const maleAvatar = "/images /male_avatar.jpg";
 const femaleAvatar ="/images /female_avatar.jpg";
 

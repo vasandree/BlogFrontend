@@ -1,9 +1,7 @@
 import { ApiService } from "./ApiService.js";
 
 const apiService = new ApiService();
-const token = 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjE1OTNmNzVhLTU4MTAtNDZkNy04ODQ2LTExNDIxOTg5ZjUyOSIsIm5iZiI6MTcwMTI2NzE1MCwiZXhwIjoxNzAxMjcwNzUwLCJpYXQiOjE3MDEyNjcxNTAsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.gZIWfqKmNx4lrCBF3R2s_vtCsi3GWQ3w7zXsCZ2AOC0";
-localStorage.setItem("token", token);
+
 $(document).ready(function(){
 
     loadGroupList();
@@ -58,12 +56,13 @@ async function checkRole(id, card) {
             case "Administrator":
                 break;
             case "Subscriber":
-                card.find("#subscribeBtn").addClass("d-none");
+                card.find("#unsubscribeBtn").removeClass("d-none");
                 break;
-            case null:
-                card.find("#unsubscribeBtn").addClass("d-none");
+            default:
+                card.find("#subscribeBtn").removeClass("d-none");
                 break;
         }
+        
     } catch (error) {
         console.error(error);
         throw error;
@@ -72,8 +71,17 @@ async function checkRole(id, card) {
 
 function addButtonClick(groupCard, id) {
     groupCard.find("#subscribeBtn").click(function (event) {
-        apiService.subscribeToGroup(id);
-        loadGroupList();
+        let result = apiService.subscribeToGroup(id);
+        result.then((data)=>{
+            if(data.body){
+                loadGroupList();
+            }
+            else{
+                // $('#popUp').find("#modalText").text("Для выполнения этого дейcтвия необходимо войти в свой профиль");
+                // $('#popUp').modal('show');
+            }
+        });
+        
     });
 
     groupCard.find("#unsubscribeBtn").click(function (event) {

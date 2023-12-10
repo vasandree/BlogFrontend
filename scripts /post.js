@@ -1,4 +1,5 @@
 import { ApiService } from "./ApiService.js";
+import { setOnHeartClick, formatDateTime } from "./main.js";
 const token = 
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjhlYzJhMjM0LTBiMmEtNDYyNi04ZDcyLTFhOTNlODNlY2RlNiIsIm5iZiI6MTcwMjA1ODAzMCwiZXhwIjoxNzAyMDYxNjMwLCJpYXQiOjE3MDIwNTgwMzAsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.g_9bbZP6VzchsC6rtAop0mynL7NH3uC3jVA1nOho83w";
 localStorage.setItem("token", token);
@@ -53,47 +54,6 @@ async function fillInInfo(post, user){
 
 
 }
-function formatDateTime(dateString) {
-
-    const originalDate = new Date(dateString);
-
-    const formattedDateTime = originalDate.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }) + ' ' + originalDate.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  
-    return formattedDateTime;
-}
-function setOnHeartClick(postCard, postId){
-    const apiService = new ApiService();
-    postCard.find("#heartIcon").on("click", function(){
-        if($(this).hasClass('fa-solid')){
-            $(this).removeClass('fa-solid');
-            apiService.dislikePost(postId);
-            let newLikes = parseInt(postCard.find("#likesCount").text(), 10) - 1;
-            postCard.find("#likesCount").text(newLikes); 
-        }
-        else{
-
-            let result = apiService.likePost(postId);
-            result.then((data)=>{
-                if(data.error){   
-                    $('#popUp').find("#modalText").text("Для выполнения этого дейcтвия необходимо войти в свой профиль");
-                    $('#popUp').modal('show');
-                }
-                else{
-                    $(this).addClass('fa-solid');
-                    let newLikes = parseInt(postCard.find("#likesCount").text(), 10) + 1;
-                    postCard.find("#likesCount").text(newLikes); 
-                }
-            })
-        }
-    });
-}
 
 async function getAddress(adressId) {
     const apiService = new ApiService();
@@ -136,7 +96,7 @@ function fillInComment(commentCard, comment, user){
         commentCard.find("#showSubComments").addClass("d-none");
     }
     setOnAnswerClick(commentCard, comment.id, user);
-    checkMyComment(commentCard, comment, user.id);
+    checkMyComment(commentCard, comment, user);
 }
 
 function setOnAnswerClick(comment, commentId, user){
@@ -226,10 +186,10 @@ function submintOnClick(postId, user){
     });
 }
 
-function checkMyComment(commentCard, comment, userId){
+function checkMyComment(commentCard, comment, user){
     commentCard.find("#editInput").find("#editText").attr("id", `editText-${comment.id}`);
-    if(!comment.deleteDate){
-        if(userId === comment.authorId){
+    if (user){
+        if(user.id === comment.authorId){
             commentCard.find("#myComment").removeClass("d-none");
             setIconsClick(commentCard, comment);
         }

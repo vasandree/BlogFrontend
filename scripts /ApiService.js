@@ -65,7 +65,7 @@ export class ApiService{
 
     async put(url, body) {
         try {
-            const response = await fetch("https://blog.kreosoft.space/api/account/register", {
+            const response = await fetch(`${this._baseUrl}${url}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export class ApiService{
         let url = "/post?";
         if(tags){
             for(let tag of tags){
-                url += `tags=${tag[1]}&`;
+                url += `tags=${tag}&`;
             }
         }
         if(author){
@@ -162,7 +162,7 @@ export class ApiService{
         let url = `/community/${id}/post?`;
         if(tags){
             for(let tag of tags){
-                url += `tags=${tag[1]}&`;
+                url += `tags=${tag}&`;
             }
         }
         if(sorting){
@@ -173,6 +173,9 @@ export class ApiService{
     }
     getGroupRole(id) {
         return this.get(`/community/${id}/role`);
+    }
+    getGroups(){
+        return this.get("/community");
     }
     subscribeToGroup(id){
         return this.post(`/community/${id}/subscribe`)
@@ -198,6 +201,9 @@ export class ApiService{
         return this.get("/author/list");
     }
     
+    getMyGroups(){
+        return this.get("/community/my");
+    }
 
     getPost(postId){
         return this.get(`/post/${postId}`);

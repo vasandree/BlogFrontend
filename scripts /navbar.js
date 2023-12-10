@@ -40,5 +40,6 @@ function registerLogout(){
     $("#logout").click(function(){
         apiService.logout();
         loadNavbar();
+        //reload page
     });
 }

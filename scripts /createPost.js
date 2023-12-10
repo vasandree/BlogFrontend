@@ -1,4 +1,5 @@
 import { ApiService } from "./ApiService.js";
+import { getObjectFromInputs, addDropdownTags } from "./main.js";
 
 const token =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI1NDVjYmI2MS1lYzdlLTQ1MjAtNDIwZC0wOGRiZWE1MjFhNWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjJkY2Y5ODM0LTViMDgtNGM1Ni1iZGU4LTc1NWE3ZWEyYWI4MCIsIm5iZiI6MTcwMjEzODkwNiwiZXhwIjoxNzAyMTQyNTA2LCJpYXQiOjE3MDIxMzg5MDYsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.fX5tpgPp5VGzF-ch3_whaRH4_ciVi7aeRk5Pa9y7XNI";
@@ -64,12 +65,7 @@ function setTags(){
     addDropdownTags();
 }
 
-function addDropdownTags(){
-    $('#tags').select2({
-        width: '100%', 
-        placeholder: 'Выберете тэги', 
-    });
-}
+
 
 function addAddress(container, objectId, query){
 
@@ -155,7 +151,7 @@ function submitOnClick(){
             let result = apiService.createPost(body);
             result.then((data)=> {
                 if(data.body){
-                    console.log("success")
+                    //на главную 
                 }
             })
         }
@@ -167,44 +163,9 @@ function submitOnClick(){
             let result = apiService.createPostInGroup(body, $("#groups").val());
             result.then((data)=> {
                 if(data.body){
-                    console.log("success")
+                    //в сообщество
                 }
             })
         }
     });
-}
-function getObjectFromInputs() {
-    let inputs = $(".form-control");
-    let objectData = {};
-
-    for (let input of inputs) {
-        if ($(input).hasClass("error")) {
-            return null;
-        }
-        let key = $(input).attr("id");
-        let value = $(input).val()
-        if (key === "birthDate" && value === "") {
-            objectData[key] = null;
-        }
-        else if(key === "phoneNumber" && value === "+7(___)___-__-__"){
-            objectData[key] = null;
-        }
-        else if(key === "image" && value === ""){
-            objectData[key] = null;
-        }
-        else{
-            objectData[key] = value;
-        }
-    }
-    
-    let selects = $(".form-select");
-    for (let select of selects) {
-        let key = $(select).attr("id");
-        let value = $(select).val();
-        if(value === ""){
-            objectData[key] = null;
-        }
-        objectData[key] = value;
-    }
-    return objectData;
 }

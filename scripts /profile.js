@@ -1,54 +1,15 @@
 import { ApiService } from "./ApiService.js";
-
+import { getObjectFromInputs, addPhoneMask } from "./main.js";
+import { formValidation } from "./validation.js";
 const token = 
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkMDczZmEzOS04MThkLTQwZmEtMDk0Yi0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjcyMjM3YzBmLTI0MGMtNDgxNi04NTEzLTY1ZTM0MDE3NGViYSIsIm5iZiI6MTcwMTEwODQyOSwiZXhwIjoxNzAxMTEyMDI5LCJpYXQiOjE3MDExMDg0MjksImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.i6gf6ePDypBfnWOhhlTLz8YwDumwDSiLYHxh9Bt3xok";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwZWRkZjU4MC0yYTBkLTQ2ZDAtMDk0NS0wOGRiZWIwMTdkMTkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9hdXRoZW50aWNhdGlvbiI6IjJjMzcyNDhlLTJhYWQtNDhjYy1hZmI1LThkNzg3NjdjZjhiYiIsIm5iZiI6MTcwMjIwODgxMSwiZXhwIjoxNzAyMjEyNDExLCJpYXQiOjE3MDIyMDg4MTEsImlzcyI6IkJsb2cuQVBJIiwiYXVkIjoiQmxvZy5BUEkifQ.vvv__o7DjaQqnAiFqY9JURa8Ytax3jFerFRlAbMZ2B4";
 localStorage.setItem("token", token);
 let currentInfo;
 const apiService = new ApiService();
 $(document).ready(function(){
-
     addPhoneMask($("#profile"));
     loadInfo($("#profile"));
-
-    $("#editBtn").click(function(event){
-        $("#editBtn").addClass("d-none");
-        $("#submitBtn").removeClass("d-none");
-        $("#cancelBtn").removeClass("d-none");
-        enableForm($("#profile"));
-   });
-
-   $("#cancelBtn").click(function(event){   
-        $("#cancelBtn").addClass("d-none");
-        $("#submitBtn").addClass("d-none");
-        $("#editBtn").removeClass("d-none");
-        fillInInfo(currentInfo);
-        disableForm($("#profile"));    
-   });
-
-   $("form").submit(function(event){
-        event.preventDefault();
-        //TODO: validate form 
-
-        let objectData = getObjectFromInputs();
-        if(objectData){
-            objectData.id = $(this).data("id");
-            objectData.gender = ($("#gender").val());
-             
-            let result = apiService.editProfile(objectData);
-            result.then((data) => {
-                if(data.body){
-                    loadInfo($("#profile"));
-                    $("#cancelBtn").addClass("d-none");
-                    $("#submitBtn").addClass("d-none");
-                    $("#editBtn").removeClass("d-none");
-                }
-                else{
-                    console.log(data.error);
-                }
-            })
-        }
-   });
-
+    setOnButtonsClick();
 })
 
     function fillInInfo(data){
@@ -92,39 +53,44 @@ $(document).ready(function(){
             }
         });
     }
+function setOnButtonsClick(){
+    $("#editBtn").click(function(event){
+        $("#editBtn").addClass("d-none");
+        $("#submitBtn").removeClass("d-none");
+        $("#cancelBtn").removeClass("d-none");
+        enableForm($("#profile"));
+   });
 
-    function addPhoneMask(form){
-        if(form.length){
-            var element = $('#phoneNumber');
-            var maskOptions = {
-                mask: '+7(000)000-00-00',
-                lazy: false
-            };
-            var mask = new IMask(element[0], maskOptions);
-        }
-    }
+   $("#cancelBtn").click(function(event){   
+        $("#cancelBtn").addClass("d-none");
+        $("#submitBtn").addClass("d-none");
+        $("#editBtn").removeClass("d-none");
+        fillInInfo(currentInfo);
+        disableForm($("#profile"));    
+   });
 
-function getObjectFromInputs() {
-    let inputs = $(".form-control");
-    let objectData = {};
+   $("form").submit(function(event){
+        event.preventDefault();
+        formValidation();
 
-    for (let input of inputs) {
-        if ($(input).hasClass("error")) {
-            return null;
+        let objectData = getObjectFromInputs();
+        if(objectData){
+            objectData.id = $(this).data("id");
+            objectData.gender = ($("#gender").val());
+             
+            let result = apiService.editProfile(objectData);
+            result.then((data) => {
+                if(data.body){
+                    loadInfo($("#profile"));
+                    $("#cancelBtn").addClass("d-none");
+                    $("#submitBtn").addClass("d-none");
+                    $("#editBtn").removeClass("d-none");
+                }
+                else{
+                    console.log(data.error);
+                }
+            })
         }
-        let key = $(input).attr("id");
-        let value = $(input).val()
-        if (key === "birthDate" && value === "") {
-            objectData[key] = null;
-        }
-        else if(key === "phoneNumber" && value === "+7(___)___-__-__"){
-            objectData[key] = null;
-        }
-        else{
-            objectData[key] = value;
-        }
-    }
-    console.log(objectData);
-    return objectData;
+   });
 }
 

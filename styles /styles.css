@@ -1,0 +1,52 @@
+.notification.error {
+    color: red;
+}
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+#footer {
+    background-color: #f8f9fa; /* Change the color as needed */
+    text-align: center;
+    padding: 20px;
+}
+
+#crown.first-place{
+    color: #ffc800;;
+}
+
+#crown.second-place{
+    color: #8d8d8d;
+}
+
+#crown.third-place{
+    color: #50441c;
+}
+
+.subcomment{
+    border-left: 3px solid rgb(81, 164, 219);
+}
+
+.fa-pencil{
+    color: #ffd500;
+}
+
+.fa-trash{
+    color: #ff0000;
+}
+
+.fa-heart{
+    color: #ff0000;
+}
