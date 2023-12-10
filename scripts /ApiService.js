@@ -87,6 +87,64 @@ export class ApiService{
             console.log(error);
         } 
     }
+    async delete(url) {
+        try {
+            const response = await fetch(`${this._baseUrl}${url}`, {
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            
+            let data = {};
+    
+            if (!response.ok) {
+                data.error = response;
+            } else {
+                data.body = response;
+            }
+            
+            return (data);
+        } 
+        catch(error) {
+            console.log(error);
+        } 
+    }
+    getCommunityInfo(id ){
+        return this.get(`/community/${id}`)
+    }
+    getCommunityPosts(id, tags, sorting, page, size){
+        let url = `/community/${id}/post?`;
+        if(tags){
+            for(let tag of tags){
+                url += `tags=${tag[1]}&`;
+            }
+        }
+        if(sorting){
+            url += `sorting=${sorting}&`
+        }
+        url += `page=${page}&size=${size}`
+        return this.get(url);
+    }
+    getGroupRole(id) {
+        return this.get(`/community/${id}/role`);
+    }
+    subscribeToGroup(id){
+        return this.post(`/community/${id}/subscribe`)
+    }
+    unsubscribeToGroup(id){
+        return this.delete(`/community/${id}/unsubscribe`)
+    }
+    getTags(){
+        return this.get("/tag");
+    }
+    likePost(postId){
+        return this.post(`/post/${postId}/like`);
+    }
+    dislikePost(postId){
+        return this.delete(`/post/${postId}/like`)
+    }
+
     logout(){
         return this.post("/account/logout")
     }
